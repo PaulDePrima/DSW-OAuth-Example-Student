@@ -48,7 +48,7 @@ def logout():
     session.clear()
     return render_template('message.html', message='You were logged out')
 
-@app.route()#the route should match the callback URL registered with the OAuth provider
+@app.route('/login/authorized')#the route should match the callback URL registered with the OAuth provider
 def authorized():
     resp = github.authorized_response()
     if resp is None:
@@ -57,8 +57,13 @@ def authorized():
     else:
         try:
             #save user data and set log in message
+            session['github_token']=(resp['access_token'],'')
+            session['user_data']=githum.get('user').data
+            message="You were successfully logged in as " + session['user_data']['login']
         except:
             #clear the session and give error message
+            session.clear()
+            message='Unable to Login. Please try again.'
     return render_template('message.html', message=message)
 
 
