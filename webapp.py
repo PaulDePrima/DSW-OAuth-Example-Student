@@ -79,7 +79,7 @@ def renderPage1():
 def renderPage2():
     if 'user_data' in session:
        if "public_repos" in session['user_data']:
-           user_data_pprint = "repo: " + (session['user_data']['public_repos'])
+           user_data_pprint = "repo: " + session['user_data']['public_repos']
     else:
         user_data_pprint = '';
     return render_template('page2.html', dump_repo = user_data_pprint)
